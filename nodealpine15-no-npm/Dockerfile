@@ -1,3 +1,4 @@
+#nodealpine15-no-npm
 FROM alpine:3.12
 ENV VERSION=v15.0.1
 

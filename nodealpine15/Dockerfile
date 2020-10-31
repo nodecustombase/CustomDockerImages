@@ -1,3 +1,4 @@
+#nodealpine15
 FROM alpine:3.12
 ENV VERSION=v15.0.1 NPM_VERSION=7.0.6 YARN_VERSION=v1.22.10
 

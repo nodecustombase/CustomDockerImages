@@ -1,4 +1,3 @@
 #nodealpine15-imagemagick
-FROM nodecustombase/nodealpine15
-RUN apk add --no-cache make gcc g++ python3 graphicsmagick \
-    && apk del --force --force-broken-world ghostscript-fonts
+FROM nodecustombase/nodealpine15-no-npm:version0.0.20
+RUN apk add --no-cache graphicsmagick=1.3.35-r2 && apk del --force-broken-world ghostscript-fonts
