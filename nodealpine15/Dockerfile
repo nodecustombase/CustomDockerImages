@@ -23,10 +23,10 @@ RUN curl -sfSLO https://nodejs.org/dist/${VERSION}/node-${VERSION}.tar.xz && \
   curl -sfSL https://nodejs.org/dist/${VERSION}/SHASUMS256.txt.asc | gpg -d -o SHASUMS256.txt && \
   grep " node-${VERSION}.tar.xz\$" SHASUMS256.txt | sha256sum -c | grep ': OK$' && \
   tar -xf node-${VERSION}.tar.xz && \
-  curl -sfSLO https://github.com/npm/cli/archive/v7.0.6.tar.gz && \
-  tar -xf v7.0.6.tar.gz && \
+  curl -sfSLO https://github.com/npm/cli/archive/v7.0.7.tar.gz && \
+  tar -xf v7.0.7.tar.gz && \
   rm -rf node-${VERSION}/deps/npm && \
-  cp -r ./cli-7.0.6 node-${VERSION}/deps/npm && \
+  cp -r ./cli-7.0.7 node-${VERSION}/deps/npm && \
   ls -l node-${VERSION}/deps/npm && \
   cat node-${VERSION}/deps/npm/package.json && \
   cd node-${VERSION} && \
