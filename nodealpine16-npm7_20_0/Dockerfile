@@ -1,6 +1,7 @@
 #nodealpine16-no-npm7_20_0
-FROM alpine:3.14.0
-ENV NODE_VERSION=16.5.0
+FROM alpine:3.14
+
+ENV NODE_VERSION 16.8.0
 
 RUN addgroup -g 1000 node \
     && adduser -u 1000 -G node -s /bin/sh -D node \
@@ -8,11 +9,17 @@ RUN addgroup -g 1000 node \
         libstdc++ \
     && apk add --no-cache --virtual .build-deps \
         curl \
+    && curl -fsSLO --compressed "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION.tar.xz" \
+    && curl -fsSLO --compressed "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
+    && curl -sfSLO https://dl-cdn.alpinelinux.org/alpine/v3.14/main/x86_64/busybox-1.33.1-r3.apk \
+    && curl -sfSLO https://dl-cdn.alpinelinux.org/alpine/v3.14/main/x86_64/ssl_client-1.33.1-r3.apk \
+    && apk add --allow-untrusted busybox-1.33.1-r3.apk \
+    && apk add --allow-untrusted ssl_client-1.33.1-r3.apk \           
     && ARCH= && alpineArch="$(apk --print-arch)" \
       && case "${alpineArch##*-}" in \
         x86_64) \
           ARCH='x64' \
-          CHECKSUM="64c1063a622e9620209b6081310036c7b48a4ee9a342dfbb9d015f1781f1444e" \
+          CHECKSUM="0db4ef6dad22a9758017dcac856024b665394688a6c582c604008abdb0c3cff6" \
           ;; \
         *) ;; \
       esac \
@@ -53,17 +60,9 @@ RUN addgroup -g 1000 node \
     done \
     && curl -fsSLO --compressed "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION.tar.xz" \
     && curl -fsSLO --compressed "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
-    && curl -sfSLO https://dl-cdn.alpinelinux.org/alpine/v3.14/main/x86_64/busybox-1.33.1-r3.apk \
-    && curl -sfSLO https://dl-cdn.alpinelinux.org/alpine/v3.14/main/x86_64/ssl_client-1.33.1-r3.apk \
-    && apk add --allow-untrusted busybox-1.33.1-r3.apk \
-    && apk add --allow-untrusted ssl_client-1.33.1-r3.apk \   
     && gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc \
     && grep " node-v$NODE_VERSION.tar.xz\$" SHASUMS256.txt | sha256sum -c - \
     && tar -xf "node-v$NODE_VERSION.tar.xz" \
-    && curl -sfSLO https://github.com/npm/cli/archive/v${NPM_VERSION}.tar.gz \
-    && tar -xf v${NPM_VERSION}.tar.gz \
-    && rm -rf node-${VERSION}/deps/npm \
-    && cp -r ./cli-${NPM_VERSION} node-${VERSION}/deps/npm \
     && cd "node-v$NODE_VERSION" \
     && ./configure \
     && make -j$(getconf _NPROCESSORS_ONLN) V= \
@@ -75,11 +74,11 @@ RUN addgroup -g 1000 node \
   fi \
   && rm -f "node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz" \
   && apk del .build-deps \
-  # smoke tests
-  && node --version
+  && node --version \
+  && npm install -g npm@7.21.1 && npm --version \
+  && npm install -g node-gyp
 
 COPY docker-entrypoint.sh /usr/local/bin/
-
 ENTRYPOINT ["docker-entrypoint.sh"]
 
 CMD [ "node" ]
