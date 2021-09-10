@@ -1,5 +1,5 @@
 #nodealpine16-no-npm7_20_0
-FROM alpine:3.14.0
+FROM alpine:3.14.2
 ENV NODE_VERSION=16.5.0
 
 RUN addgroup -g 1000 node \
