@@ -1,5 +1,5 @@
 #nodealpine16-no-npm7_20_0
-FROM alpine:3.14
+FROM alpine:3.14.2
 
 ENV NODE_VERSION 16.8.0
 
