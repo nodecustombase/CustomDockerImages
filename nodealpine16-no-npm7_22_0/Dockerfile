@@ -1,13 +1,15 @@
 #nodealpine16
 FROM alpine:3.14
-ENV VERSION=v16.8.0 NPM_VERSION=7.22.0
+ENV VERSION=v16.8.0 NPM_VERSION=7.23.0
 
 RUN apk upgrade --no-cache -U && \
   apk add --no-cache curl make gcc g++ python3 linux-headers binutils-gold gnupg libstdc++ && \
   curl -sfSLO http://dl-cdn.alpinelinux.org/alpine/v3.14/main/x86_64/busybox-1.33.1-r3.apk  && \
-  curl -sfSLO http://dl-cdn.alpinelinux.org/alpine/v3.14/main/x86_64/ssl_client-1.33.1-r3.apk    && \
-  apk add --allow-untrusted busybox-1.33.1-r3.apk  && \
-  apk add --allow-untrusted ssl_client-1.33.1-r3.apk    && \  
+  curl -sfSLO http://dl-cdn.alpinelinux.org/alpine/v3.14/main/x86_64/ssl_client-1.33.1-r3.apk && \
+  curl -sfSLO https://dl-cdn.alpinelinux.org/alpine/v3.14/main/x86_64/apk-tools-2.12.7-r0.apk && \
+  apk add --allow-untrusted busybox-1.33.1-r3.apk && \
+  apk add --allow-untrusted ssl_client-1.33.1-r3.apk && \  
+  apk add --allow-untrusted apk-tools-2.12.7-r0.apk && \  
    for key in \
       4ED778F539E3634C779C87C6D7062848A1AB005C \
       94AE36675C464D64BAFA68DD7434390BDBE9B9C5 \
