@@ -1,5 +1,5 @@
 #nodealpine16
-FROM alpine:3.14
+FROM alpine:3.14.2
 ENV VERSION=v16.8.0 NPM_VERSION=7.23.0
 
 RUN apk upgrade --no-cache -U && \
