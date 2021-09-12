@@ -1,5 +1,5 @@
 #nodealpine16-no-npm7_20_0-qpdf-phantomjs
-FROM sum1else/nodealpine16-no-npm7_20_0-qpdf
+FROM nodecustombase/nodealpine16-no-npm7_20_0-qpdf
 
 COPY dockerized-phantomjs.tar.gz ./
 COPY phantomjs-2.1.1-linux-x86_64.tar.bz2 ./
